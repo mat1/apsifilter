@@ -15,52 +15,55 @@ import ch.fhnw.apsifilter.DomFilter;
 public class TagWhitelistFilter implements DomFilter {
 
 	private final Set<String> whitelist;
-	
+
 	private TagWhitelistFilter() {
 		this.whitelist = new HashSet<String>();
 	}
-	
+
 	public void filter(Document node) {
 		filterNode(node);
 	}
-	
+
 	private void filterNode(Node node) {
 		boolean deleted = false;
-		if(!whitelist.contains(getLookupName(node))){
-			if(node.parent() != null){
+		if (!whitelist.contains(getLookupName(node))) {
+			if (node.parent() != null) {
 				node.remove();
 				deleted = true;
 			}
 		}
-		if(!deleted) {
+		if (!deleted) {
 			final List<Node> children = new ArrayList<Node>(node.childNodes());
-			for(Node child : children) filterNode(child);
+			for (Node child : children)
+				filterNode(child);
 		}
 	}
-	
-	public void add(String... tagNames){
-		for(String tagName : tagNames){
+
+	public void add(String... tagNames) {
+		for (String tagName : tagNames) {
 			whitelist.add(tagName);
 		}
 	}
-	
+
 	private String getLookupName(Node node) {
 		if (node instanceof Element) {
-            Element sourceEl = (Element) node;
-            return sourceEl.tagName();
-        }
-		
+			Element sourceEl = (Element) node;
+			return sourceEl.tagName();
+		} else if (node instanceof TextNode) {
+			return "text";
+		}
+
 		return null;
 	}
-	
+
 	public static TagWhitelistFilter createDefault() {
 		TagWhitelistFilter filter = new TagWhitelistFilter();
-	    filter.add("html", "head", "body", "a", "blockquote", "br", "caption", "col",
-	               "colgroup", "div", "em", "h1", "h2", "h3", "h4", "h5", "h6",
-	               "i", "img", "li", "ol", "ul", "p", "pre", "small", "strike", "strong",
-	               "table", "tbody", "td", "tfoot", "th", "thead", "tr",
-	               "div", "span");
-		
+		filter.add("text", "html", "head", "body", "a", "blockquote", "br",
+				"caption", "col", "colgroup", "div", "em", "h1", "h2", "h3",
+				"h4", "h5", "h6", "i", "img", "li", "ol", "ul", "p", "pre",
+				"small", "strike", "strong", "table", "tbody", "td", "tfoot",
+				"th", "thead", "tr", "div", "span");
+
 		return filter;
 	}
 
