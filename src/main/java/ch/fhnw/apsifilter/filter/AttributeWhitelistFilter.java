@@ -72,6 +72,7 @@ public class AttributeWhitelistFilter extends AbstractAllNodeFilter {
         filter.allow("th", "abbr", "axis", "colspan", "rowspan", "scope", "width");
         
         filter.allow("ul", "type");
+        filter.allow("text", "text");
 		
 		return filter;
 	}

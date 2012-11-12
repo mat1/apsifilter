@@ -10,9 +10,7 @@ import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 
-import ch.fhnw.apsifilter.DomFilter;
-
-public abstract class AbstractAttributeFilter implements DomFilter {
+public abstract class AbstractAttributeFilter extends AbstractAllNodeFilter {
 	private final Map<String, String[]> attributes;
 	
 	protected AbstractAttributeFilter() {
@@ -23,7 +21,8 @@ public abstract class AbstractAttributeFilter implements DomFilter {
 		this.attributes.put(elem, attributes);
 	}
 	
-	public void filter(Node node) {
+	@Override
+	public void filterNode(Node node) {
 		if(node instanceof Element ) {
 			final Element cur = (Element) node;
 			final List<String> toConsider = attributes.get(cur.tagName()) != null

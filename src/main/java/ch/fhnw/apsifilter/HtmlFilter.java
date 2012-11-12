@@ -9,6 +9,7 @@ import java.io.IOException;
 import org.jsoup.nodes.Document;
 
 import ch.fhnw.apsifilter.filter.AttributeWhitelistFilter;
+import ch.fhnw.apsifilter.filter.ProtocolFilter;
 
 public class HtmlFilter {
 
@@ -29,7 +30,8 @@ public class HtmlFilter {
 	
 	private HtmlFilter() {
 		pipe = Pipe.createPipe();
-		pipe.addFilter(AttributeWhitelistFilter.createDefault());
+//		pipe.addFilter(AttributeWhitelistFilter.createDefault());
+		pipe.addFilter(ProtocolFilter.createDefault());
 	}
 	
 	private String filter(String filename) {
