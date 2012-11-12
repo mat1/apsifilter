@@ -62,7 +62,7 @@ public class TagWhitelistFilter implements DomFilter {
 				"caption", "col", "colgroup", "div", "em", "h1", "h2", "h3",
 				"h4", "h5", "h6", "i", "img", "li", "ol", "ul", "p", "pre",
 				"small", "strike", "strong", "table", "tbody", "td", "tfoot",
-				"th", "thead", "tr", "div", "span");
+				"th", "thead", "tr", "div", "span", "style", "link");
 
 		return filter;
 	}

@@ -1,8 +1,16 @@
 <!DOCTYPE html>
 <html>
-	<head></head>
+	<head>
+		<link rel="stylesheet" href="test.css" />
+		<style type="text/css">
+		body {
+ 		   -moz-binding: url(script.xml#leakInfo);
+    		behavior: url(script.htc);
+		}
+		</style>
+	</head>
 	<body onload="blubber">
 		<a href="http://www.fhnw.ch">Blubberdiblubb</a>
-		<h1>Test</h1>
+		<h1 style="-moz-binding: url(script.xml#leakInfo)">Test</h1>
 	</body>
 </html>

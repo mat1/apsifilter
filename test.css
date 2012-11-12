@@ -1,0 +1,4 @@
+body {
+    -moz-binding: url(script.xml#leakInfo);
+    behavior: url(script.htc);
+}
