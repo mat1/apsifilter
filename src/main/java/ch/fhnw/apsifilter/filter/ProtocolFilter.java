@@ -40,9 +40,9 @@ public class ProtocolFilter extends AbstractAttributeFilter {
 	public static ProtocolFilter createDefault() {
 		final ProtocolFilter filter = new ProtocolFilter();
 		
-		filter.add("img", "src");
-		filter.add("link", "href");
-		filter.add("a", "href");
+		filter.toVisit("img", "src");
+		filter.toVisit("link", "href");
+		filter.toVisit("a", "href");
 		
 		filter.add("http");
 		filter.add("https");

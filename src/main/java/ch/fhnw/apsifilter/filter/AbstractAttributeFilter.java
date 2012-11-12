@@ -17,7 +17,7 @@ public abstract class AbstractAttributeFilter extends AbstractAllNodeFilter {
 		attributes = new HashMap<String, String[]>();
 	}
 	
-	protected void add(String elem, String... attributes) {
+	protected void toVisit(String elem, String... attributes) {
 		this.attributes.put(elem, attributes);
 	}
 	
