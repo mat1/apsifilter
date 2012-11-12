@@ -29,7 +29,6 @@ public class HtmlFilter {
 		pipe = Pipe.createPipe();
 	}
 	
-	
 	private String filter(String filename) {
 		try {
 			String htmlText = readHtmlFromFile(filename);
