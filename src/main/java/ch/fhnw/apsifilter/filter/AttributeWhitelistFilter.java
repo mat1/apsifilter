@@ -60,11 +60,18 @@ public class AttributeWhitelistFilter extends AbstractAllNodeFilter {
 	public static AttributeWhitelistFilter createDefault() {
 		AttributeWhitelistFilter filter = new AttributeWhitelistFilter();
 		
-		filter.setAlwaysAllowed("style", "class", "id");
+		filter.setAlwaysAllowed("style", "class", "id", "name");
 		
 		filter.allow("a", "href");
-		filter.allow("img", "src");
-		filter.allow("link", "rel", "href");
+		filter.allow("img", "align", "alt", "height", "src", "title", "width");
+		filter.allow("link", "rel", "href", "type");
+		
+		/* table tag attributes */
+		filter.allow("table", "summary", "width");
+		filter.allow("td", "abbr", "axis", "colspan", "rowspan", "width");
+        filter.allow("th", "abbr", "axis", "colspan", "rowspan", "scope", "width");
+        
+        filter.allow("ul", "type");
 		
 		return filter;
 	}
