@@ -1,5 +1,6 @@
 package ch.fhnw.apsifilter.filter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -13,25 +14,33 @@ import org.jsoup.nodes.TextNode;
 public class AttributeWhitelistFilter extends AbstractAllNodeFilter {
 
 	private final Map<String, String[]> whitelist;
+	private final List<String> allwaysAllowed;
 	
 	private AttributeWhitelistFilter() {
 		this.whitelist = new HashMap<String, String[]>();
+		this.allwaysAllowed = new ArrayList<String>();
 	}
 	
 	@Override
 	protected void filterNode(Node node) {
 		/* filter */
 		final List<String> allowed = Arrays.asList(whitelist.get(getLookupName(node)) != null  
-																	? whitelist.get(getLookupName(node)) 
-																	: new String[0]);
-		
+													? whitelist.get(getLookupName(node)) 
+													: new String[0]);
+
 		for(Attribute attr: node.attributes()) {
+			if(allwaysAllowed.contains(attr.getKey())) continue;
 			if(!allowed.contains(attr.getKey()))
 				node.removeAttr(attr.getKey());
 		}
 	}
 	
-	public void add(String element, String... attributes) {
+	public void setAlwaysAllowed(String...attributes) {
+		allwaysAllowed.clear();
+		allwaysAllowed.addAll(Arrays.asList(attributes));
+	}
+	
+	public void allow(String element, String... attributes) {
 		whitelist.put(element, attributes);
 	}
 	
@@ -51,8 +60,17 @@ public class AttributeWhitelistFilter extends AbstractAllNodeFilter {
 	public static AttributeWhitelistFilter createDefault() {
 		AttributeWhitelistFilter filter = new AttributeWhitelistFilter();
 		
-//		filter.add("body", "onload");
+		filter.setAlwaysAllowed("style", "class", "id");
 		
+		filter.allow("a", "href");
+		filter.allow("img", "src");
+		filter.allow("link", "rel", "href");
+		
+		return filter;
+	}
+	
+	public static AttributeWhitelistFilter createRemoveAllAttributes() {
+		AttributeWhitelistFilter filter = new AttributeWhitelistFilter();
 		return filter;
 	}
 }
