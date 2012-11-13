@@ -1,5 +1,6 @@
 package ch.fhnw.apsifilter.filter.css;
 
+import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 
@@ -9,27 +10,31 @@ public class CssInlineFilter extends AbstractNodeVisitor {
 
 	private final CssCleaner cleaner;
 	
-	private CssInlineFilter() {
+	private CssInlineFilter(CssCleaner cleaner) {
 		super();
-		cleaner = CssCleaner.createDefault();
+		this.cleaner = cleaner;
 	}
 	
 	@Override
 	protected void filterChosenNode(Node n) {
-		final Element elem;
 		if(n instanceof Element) {
-			elem = (Element) n;
-			
-			if(cleaner.mayBeMalicious(elem.text())) {
-				elem.remove();
-			}
+			for(Node cur : n.childNodes())
+				filterChosenNode(cur);
+		} else if(n instanceof DataNode) {
+			DataNode cur = (DataNode) n;
+			cur.setWholeData(cleaner.getCleanedCss(cur.getWholeData()));
 		}
 	}
 	
 	public static CssInlineFilter createDefault() {
-		final CssInlineFilter filter = new CssInlineFilter();
+		final CssInlineFilter filter = new CssInlineFilter(CssCleaner.createDefault());
 		filter.shouldVisit("style");
-		
+		return filter;
+	}
+	
+	public static CssInlineFilter createLazy() {
+		final CssInlineFilter filter = new CssInlineFilter(CssCleaner.createLazy());
+		filter.shouldVisit("style");
 		return filter;
 	}
 	

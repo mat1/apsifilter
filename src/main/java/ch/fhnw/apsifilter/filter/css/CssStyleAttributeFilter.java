@@ -8,23 +8,25 @@ public class CssStyleAttributeFilter extends AbstractAttributeFilter {
 	
 	private final CssCleaner cleaner;
 	
-	private CssStyleAttributeFilter() {
+	private CssStyleAttributeFilter(CssCleaner cleaner) {
 		super();
-		super.alwaysVisit("style");
-		
-		cleaner = CssCleaner.createDefault();
+		this.cleaner = cleaner;
 	}
 	
 	@Override
 	protected void filterAttribute(Attribute attr) {
-		final String value = attr.getValue();
-		
-		if(cleaner.mayBeMalicious(value)) {
-			attr.setValue("");
-		}
+		attr.setValue(cleaner.getCleanedCss(attr.getValue()));
 	}
 
 	public static CssStyleAttributeFilter createDefault() {
-		return new CssStyleAttributeFilter();
+		CssStyleAttributeFilter filter = new CssStyleAttributeFilter(CssCleaner.createDefault());
+		filter.alwaysVisit("style");
+		return filter;
+	}
+	
+	public static CssStyleAttributeFilter createLazy() {
+		CssStyleAttributeFilter filter = new CssStyleAttributeFilter(CssCleaner.createLazy());
+		filter.alwaysVisit("style");
+		return filter;
 	}
 }

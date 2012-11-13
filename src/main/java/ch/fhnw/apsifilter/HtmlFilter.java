@@ -11,6 +11,8 @@ import org.jsoup.nodes.Document;
 import ch.fhnw.apsifilter.filter.AttributeWhitelistFilter;
 import ch.fhnw.apsifilter.filter.ProtocolFilter;
 import ch.fhnw.apsifilter.filter.TagWhitelistFilter;
+import ch.fhnw.apsifilter.filter.css.CssInlineFilter;
+import ch.fhnw.apsifilter.filter.css.CssLinkFilter;
 import ch.fhnw.apsifilter.filter.css.CssStyleAttributeFilter;
 
 public class HtmlFilter {
@@ -32,10 +34,12 @@ public class HtmlFilter {
 	
 	private HtmlFilter() {
 		pipe = Pipe.createPipe();
-		pipe.addFilter(TagWhitelistFilter.createDefault());
+//		pipe.addFilter(TagWhitelistFilter.createDefault());
 		pipe.addFilter(AttributeWhitelistFilter.createDefault());
 		pipe.addFilter(ProtocolFilter.createDefault());
 		pipe.addFilter(CssStyleAttributeFilter.createDefault());
+		pipe.addFilter(CssInlineFilter.createLazy());
+		pipe.addFilter(CssLinkFilter.createDefault());
 	}
 	
 	private String filter(String filename) {
