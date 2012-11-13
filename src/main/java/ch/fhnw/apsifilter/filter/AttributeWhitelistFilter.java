@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.CheckReturnValue;
+
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Element;
@@ -45,6 +47,7 @@ public class AttributeWhitelistFilter extends AbstractAllNodeFilter {
 		whitelist.put(element, attributes);
 	}
 	
+	@CheckReturnValue
 	private String getLookupName(Node node) {
 		if (node instanceof Element) {
             Element sourceEl = (Element) node;
@@ -58,6 +61,7 @@ public class AttributeWhitelistFilter extends AbstractAllNodeFilter {
 		return null;
 	}
 	
+	@CheckReturnValue
 	public static AttributeWhitelistFilter createDefault() {
 		AttributeWhitelistFilter filter = new AttributeWhitelistFilter();
 		
@@ -80,6 +84,7 @@ public class AttributeWhitelistFilter extends AbstractAllNodeFilter {
 		return filter;
 	}
 	
+	@CheckReturnValue
 	public static AttributeWhitelistFilter createRemoveAllAttributes() {
 		AttributeWhitelistFilter filter = new AttributeWhitelistFilter();
 		return filter;

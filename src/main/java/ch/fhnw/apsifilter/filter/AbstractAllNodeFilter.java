@@ -1,5 +1,7 @@
 package ch.fhnw.apsifilter.filter;
 
+import javax.annotation.Nonnull;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.NodeTraversor;
@@ -23,6 +25,6 @@ public abstract class AbstractAllNodeFilter implements DomFilter {
 	
 	protected void visitCompleted() {}
 	
-	protected abstract void filterNode(Node n);
+	protected abstract void filterNode(@Nonnull Node n);
 	
 }

@@ -50,6 +50,7 @@ public class HtmlFilter {
 		pipe.addFilter(CssLinkFilter.createDefault());
 	}
 	
+	@CheckReturnValue
 	private String filter(@Nonnull String filename) {
 		try {
 			String htmlText = readHtmlFromFile(filename);

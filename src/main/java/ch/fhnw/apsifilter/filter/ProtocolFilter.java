@@ -5,6 +5,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.CheckReturnValue;
+
 import org.jsoup.nodes.Attribute;
 
 public class ProtocolFilter extends AbstractAttributeFilter {
@@ -37,6 +39,7 @@ public class ProtocolFilter extends AbstractAttributeFilter {
 		}
 	}
 	
+	@CheckReturnValue
 	public static ProtocolFilter createDefault() {
 		final ProtocolFilter filter = new ProtocolFilter();
 		

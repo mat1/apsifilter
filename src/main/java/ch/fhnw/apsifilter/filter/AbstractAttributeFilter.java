@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
@@ -44,6 +46,6 @@ public abstract class AbstractAttributeFilter extends AbstractAllNodeFilter {
 		}
 	}
 	
-	protected abstract void filterAttribute(Attribute attr);
+	protected abstract void filterAttribute(@Nonnull Attribute attr);
 	
 }
