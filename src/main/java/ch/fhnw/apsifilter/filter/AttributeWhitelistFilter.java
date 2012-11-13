@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jsoup.nodes.Attribute;
+import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
@@ -48,10 +49,10 @@ public class AttributeWhitelistFilter extends AbstractAllNodeFilter {
 		if (node instanceof Element) {
             Element sourceEl = (Element) node;
             return sourceEl.tagName();
-        } else { 
-        	if(node instanceof TextNode) {
-	        	return "text";
-        	}
+        } else if (node instanceof TextNode){ 
+        	return "text";
+        } else if (node instanceof DataNode) {
+        	return "data";
         }
 		
 		return null;
@@ -65,6 +66,7 @@ public class AttributeWhitelistFilter extends AbstractAllNodeFilter {
 		filter.allow("a", "href");
 		filter.allow("img", "align", "alt", "height", "src", "title", "width");
 		filter.allow("link", "rel", "href", "type");
+		filter.allow("style", "type");
 		
 		/* table tag attributes */
 		filter.allow("table", "summary", "width");
@@ -73,6 +75,7 @@ public class AttributeWhitelistFilter extends AbstractAllNodeFilter {
         
         filter.allow("ul", "type");
         filter.allow("text", "text");
+        filter.allow("data", "data");
 		
 		return filter;
 	}
