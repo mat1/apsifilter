@@ -18,7 +18,10 @@ public abstract class AbstractAllNodeFilter implements DomFilter {
 				filterNode(node);
 			}
 		}).traverse(node);
+		visitCompleted();
 	}
+	
+	protected void visitCompleted() {}
 	
 	protected abstract void filterNode(Node n);
 	
