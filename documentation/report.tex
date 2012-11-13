@@ -1,0 +1,58 @@
+\documentclass[a4paper]{template/imereport}
+\usepackage[utf8]{inputenc}
+\usepackage{ucs}
+\usepackage[ngerman]{babel}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{listings}
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{beramono}
+
+\usepackage{color}
+\definecolor{bluekeywords}{rgb}{0.08,0.08,0.5}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+\lstset{ %
+    captionpos=b,
+    breaklines=true,
+    basicstyle=\footnotesize\ttfamily,
+    frame=single,
+    keywordstyle=\color{bluekeywords}\bfseries,
+    morekeywords={proc, pure, ensures, requires, call, in, out, var, const ,init, fun, copy, ref, while, returns}
+}
+
+\pagestyle{myheadings}
+\markboth{IML Compiler}{IML Compiler}
+
+% Title section
+\author{Florian Lüscher, Matthias Brun\\
+Fachhochschule Nordwestschweiz\\
+\small{\texttt{<\{florian.luescher,matthias.brun\}@students.fhnw.ch>}}
+}
+\title{IML Compiler: Enhancements for Robust Programming}
+
+\begin{document}
+
+\maketitle
+
+% Einleitung
+\input{content/00-einleitung}
+
+% Inhalt
+\input{content/inhalt}
+
+% Schluss
+\input{content/99-schluss}
+
+\vspace{50pt}
+
+% Bildverzeichnis
+\listoffigures
+
+\vspace{20pt}
+
+% Quellverzeichnis
+\bibliographystyle{IEEEtran}
+\bibliography{report.bib}
+
+\end{document}
