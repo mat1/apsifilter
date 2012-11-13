@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.CheckReturnValue;
+import javax.annotation.Nonnull;
 
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.DataNode;
@@ -43,12 +44,12 @@ public class AttributeWhitelistFilter extends AbstractAllNodeFilter {
 		allwaysAllowed.addAll(Arrays.asList(attributes));
 	}
 	
-	public void allow(String element, String... attributes) {
+	public void allow(@Nonnull String element, String... attributes) {
 		whitelist.put(element, attributes);
 	}
 	
 	@CheckReturnValue
-	private String getLookupName(Node node) {
+	private String getLookupName(@Nonnull Node node) {
 		if (node instanceof Element) {
             Element sourceEl = (Element) node;
             return sourceEl.tagName();

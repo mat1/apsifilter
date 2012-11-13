@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.CheckReturnValue;
+import javax.annotation.Nonnull;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
@@ -24,7 +27,7 @@ public class TagWhitelistFilter implements DomFilter {
 		filterNode(node);
 	}
 
-	private void filterNode(Node node) {
+	private void filterNode(@Nonnull Node node) {
 		boolean deleted = false;
 		if (!whitelist.contains(getLookupName(node))) {
 			if (node.parent() != null) {
@@ -45,7 +48,8 @@ public class TagWhitelistFilter implements DomFilter {
 		}
 	}
 
-	private String getLookupName(Node node) {
+	@CheckReturnValue
+	private String getLookupName(@Nonnull Node node) {
 		if (node instanceof Element) {
 			Element sourceEl = (Element) node;
 			return sourceEl.tagName();
@@ -55,7 +59,8 @@ public class TagWhitelistFilter implements DomFilter {
 
 		return null;
 	}
-
+	
+	@CheckReturnValue
 	public static TagWhitelistFilter createDefault() {
 		TagWhitelistFilter filter = new TagWhitelistFilter();
 		filter.add("text", "html", "head", "body", "a", "b", "blockquote", "br",
