@@ -1,10 +1,8 @@
 package ch.fhnw.apsifilter;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -245,6 +243,26 @@ public class HtmlFilterTest {
 		assertEquals(BLANK_HTML_SITE, stripNewlines(cleanHtml));
 	}
 	
+	@Test
+	public void testIframe() {
+		String html = "<IFRAME SRC=\"javascript:alert('XSS');\"></IFRAME>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(BLANK_HTML_SITE, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testTable() {
+		String html = "<TABLE BACKGROUND=\"javascript:alert('XSS')\">";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + "<table></table>" + FOOTER, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testDivBackgroundImage() {
+		String html = "<DIV STYLE=\"background-image: url(javascript:alert('XSS'))\">";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + "<div style=\"\"></div>" + FOOTER, stripNewlines(cleanHtml));
+	}
 	
 	private static String stripNewlines(String text) {
 		text = text.replaceAll("\\n\\s*", "");

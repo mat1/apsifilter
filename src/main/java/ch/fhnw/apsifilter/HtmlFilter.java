@@ -41,6 +41,7 @@ public class HtmlFilter {
 	private String filter(String filename) {
 		try {
 			String htmlText = readHtmlFromFile(filename);
+			
 			Document d = pipe.filter(htmlText);
 			
 			return d.html();
