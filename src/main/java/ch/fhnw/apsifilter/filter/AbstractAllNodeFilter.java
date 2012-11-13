@@ -12,7 +12,7 @@ import ch.fhnw.apsifilter.DomFilter;
 public abstract class AbstractAllNodeFilter implements DomFilter {
 	protected AbstractAllNodeFilter() {	}
 	
-	public void filter(Document node) {
+	public final void filter(Document node) {
 		new NodeTraversor(new NodeVisitor() {
 			public void tail(Node node, int depth) { }
 			
