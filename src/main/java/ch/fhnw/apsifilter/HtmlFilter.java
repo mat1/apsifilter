@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
@@ -22,7 +21,7 @@ import ch.fhnw.apsifilter.filter.css.CssStyleAttributeFilter;
 public class HtmlFilter {
 
 	public static void main(String[] args) {
-		if(args.length != 2) {
+		if(args.length != 1) {
 			printUsage();
 			return;
 		}
@@ -31,7 +30,6 @@ public class HtmlFilter {
 		final String cleanHtml = htmlFilter.filter(args[0]);
 		
 		System.out.println(cleanHtml);
-		htmlFilter.writeHtmlToFile(cleanHtml, args[1]);
 	}
 	
 	private static void printUsage() {
@@ -84,18 +82,5 @@ public class HtmlFilter {
 		} catch(IOException ex) {
 			throw new FileNotFoundException("Error reading file: " + ex.getMessage());
 		}
-	}
-	
-	private void writeHtmlToFile(@Nonnull String html, @Nonnull String filename) {
-		final File file = new File(filename);
-
-		try{
-			final PrintWriter writer = new PrintWriter(file);
-			writer.print(html);
-			writer.close();
-		} catch(IOException ex) {
-			System.err.println("Error writing file: " + ex.getMessage());
-		} 
-
 	}
 }
