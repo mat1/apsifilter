@@ -1,6 +1,7 @@
 package ch.fhnw.apsifilter.filter.css;
 
 import javax.annotation.CheckReturnValue;
+import javax.annotation.Nonnull;
 
 import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Element;
@@ -12,7 +13,7 @@ public class CssInlineFilter extends AbstractNodeVisitor {
 
 	private final CssCleaner cleaner;
 	
-	private CssInlineFilter(CssCleaner cleaner) {
+	private CssInlineFilter(@Nonnull CssCleaner cleaner) {
 		super();
 		this.cleaner = cleaner;
 	}

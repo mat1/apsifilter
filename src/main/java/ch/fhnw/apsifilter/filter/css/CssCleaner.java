@@ -28,6 +28,7 @@ public final class CssCleaner {
 		this.strict = strict;
 	}
 	
+	@CheckReturnValue
 	private boolean mayBeMalicious(@Nonnull final String css) {
 		return xblPattern.matcher(css).find() ||
 			   htcPattern.matcher(css).find() ||
@@ -37,7 +38,7 @@ public final class CssCleaner {
 	}
 	
 	@CheckReturnValue
-	public String getCleanedCss(final String css) {
+	public String getCleanedCss(@Nonnull final String css) {
 		if(mayBeMalicious(css)){
 			if(strict) return "";
 			else return css.replaceAll(XBL_PATTERN, "ignored: 0;")

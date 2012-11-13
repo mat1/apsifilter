@@ -3,6 +3,7 @@ package ch.fhnw.apsifilter.filter;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 
 import org.jsoup.nodes.Attribute;
@@ -30,6 +31,7 @@ public class SrcUrlFilter extends AbstractAttributeFilter {
 		}
 	}
 	
+	@CheckReturnValue
 	public static SrcUrlFilter createDefault() {
 		SrcUrlFilter filter = new SrcUrlFilter();
 		filter.alwaysVisit("src");

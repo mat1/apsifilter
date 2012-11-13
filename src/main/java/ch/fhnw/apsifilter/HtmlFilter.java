@@ -68,9 +68,10 @@ public class HtmlFilter {
 		if(!f.exists()) throw new FileNotFoundException("Unable to find file.");
 		if(!f.canRead()) throw new FileNotFoundException("Could not read file.");
 		
+		BufferedReader in = null;
 		try{
 			final StringBuilder builder = new StringBuilder();
-			final BufferedReader in = new BufferedReader(new FileReader(f));
+			in = new BufferedReader(new FileReader(f));
 			final char[] buf = new char[1024];
 			
 			int cnt;
@@ -81,6 +82,14 @@ public class HtmlFilter {
 			return builder.toString();
 		} catch(IOException ex) {
 			throw new FileNotFoundException("Error reading file: " + ex.getMessage());
+		} finally {
+			if(in != null){
+				try {
+					in.close();
+				} catch (IOException e) {
+					throw new FileNotFoundException("Error closing file: " + e.getMessage());
+				}
+			}
 		}
 	}
 }

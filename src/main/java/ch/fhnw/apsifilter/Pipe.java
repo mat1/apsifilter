@@ -22,6 +22,7 @@ public final class Pipe {
 		filters.add(f);
 	}
 	
+	@CheckReturnValue
 	public Document filter(@Nonnull String html) {
 		final Document doc = Jsoup.parse(html);
 		

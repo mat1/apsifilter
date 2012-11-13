@@ -1,6 +1,7 @@
 package ch.fhnw.apsifilter.filter.css;
 
 import javax.annotation.CheckReturnValue;
+import javax.annotation.Nonnull;
 
 import org.jsoup.nodes.Attribute;
 
@@ -10,7 +11,7 @@ public class CssStyleAttributeFilter extends AbstractAttributeFilter {
 	
 	private final CssCleaner cleaner;
 	
-	private CssStyleAttributeFilter(CssCleaner cleaner) {
+	private CssStyleAttributeFilter(@Nonnull CssCleaner cleaner) {
 		super();
 		this.cleaner = cleaner;
 	}
