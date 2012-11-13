@@ -2,6 +2,8 @@ package ch.fhnw.apsifilter.filter.css;
 
 import java.util.regex.Pattern;
 
+import javax.annotation.CheckReturnValue;
+
 public final class CssCleaner {
 	private static final String XBL_PATTERN = "-moz-binding([\\s\\t]*:[0-9a-zA-z\\s\\t\\(\\)\\#.\\\\/\\-\\+]*(;)?)?";
 	private static final String HTC_PATTERN = "behavior([\\s\\t]*:[0-9a-zA-z\\s\\t\\(\\)\\#.:\\\\/\\-\\+]*(;)?)?";
@@ -33,6 +35,7 @@ public final class CssCleaner {
 			   javascriptPattern.matcher(css).find();
 	}
 	
+	@CheckReturnValue
 	public String getCleanedCss(final String css) {
 		if(mayBeMalicious(css)){
 			if(strict) return "";
@@ -46,14 +49,17 @@ public final class CssCleaner {
 		return css;
 	}
 	
+	@CheckReturnValue
 	public static CssCleaner createDefault() {
 		return createStrict();
 	}
 	
+	@CheckReturnValue
 	public static CssCleaner createStrict() {
 		return new CssCleaner(true);
 	}
 	
+	@CheckReturnValue
 	public static CssCleaner createLazy() {
 		return new CssCleaner(false);
 	}

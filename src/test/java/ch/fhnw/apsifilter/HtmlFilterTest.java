@@ -269,6 +269,13 @@ public class HtmlFilterTest {
 	}
 	
 	@Test
+	public void testDivBackgroundImage2() {
+		String html = "<DIV STYLE=\"background-image: url(jav&#x0D;ascript:alert('XSS');)\">";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + "<div style=\"\"></div>" + FOOTER, stripNewlines(cleanHtml));
+	}
+	
+	@Test
 	public void testDivBackgroundImagePlusExtraCharacters() {
 		String html = "<DIV STYLE=\"background-image: url(&#1;javascript:alert('XSS'))\">";
 		String cleanHtml = underTest.filter(html).html();

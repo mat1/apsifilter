@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.CheckReturnValue;
+import javax.annotation.Nonnull;
 
 import org.jsoup.nodes.Attribute;
 
@@ -28,7 +29,7 @@ public class ProtocolFilter extends AbstractAttributeFilter {
 		}
 	}
 	
-	private boolean isValid(String value) {
+	private boolean isValid(@Nonnull String value) {
 		try{
 			URI uri = new URI(value);
 			if(!allowed.contains(uri.getScheme())) return false;
