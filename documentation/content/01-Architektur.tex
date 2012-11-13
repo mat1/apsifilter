@@ -1,1 +1,60 @@
-blubber
+\section{Architektur}
+
+Dieses Kaptitel erläutert den Aufbau unserer Applikation.
+Auf der Abbildung \ref{fig:overview} sind die Klassen und Interfaces der Applikation ersichtlich. 
+
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{./content/Class_Overview.png}
+	\end{center}
+	\caption{Übersicht über die Klassen und Interfaces}
+	\label{fig:overview}
+\end{figure}
+
+\subsection{Verarbeitungsprozess}
+
+Das Aktivitätsdiagramm Abbildung \ref{fig:process} beschreibt den Verarbeitungsprozess vom Starten der Applikation, bis zur Ausgabe des gesäuberten HTML Codes.
+
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{./content/Filtering_Process.png}
+	\end{center}
+	\caption{Verarbeitungsprozess}
+	\label{fig:process}
+\end{figure}
+
+\newpage
+
+\subsection{Filter}
+
+Dieser Abschnitt beschreibt die implementierten Filter. 
+In der Tabelle \ref{tab:filter} sind die implementierten Filter beschrieben.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{l p{10.5cm} }
+\hline
+\textbf{Filter} & \textbf{Beschreibung} \\ \hline \hline
+TagWhitelistFilter & Dieser Filter entfernt alle HTML Tags welche nicht in der Whitelist enthalten sind. 
+Beim Entfernen eines HTML Tags werden auch die zugehörigen HTML Child Nodes entfernt. \\ 
+
+AttributeWhitelistFilter & Der Attribute Whihtelist Filter entfernt alle HTML Attribute welche nicht in der Whitelist enthalten sind. \\
+
+ProtocolFilter & Der Protocol Filter setzt bei den HTML Attributen href und src den Wert auf "", wenn das Protokoll nicht in der Whitelist vorhanden ist. \\
+
+SrcUrlFilter & Dieser Filter entfernt den Query Parameter beim HTML src Attribut aus der URL. Dies verhindert z.B. folgende URLs http://www.test.com/test.php?somevariables=maliciouscode in img Tags. \\
+
+CssCleaner & Dies ist kein Filter, wird aber von Css Filter Klassen verwendet. Der CssCleaner entfernt mit Hilfe von Regular Expressions -moz-binding, behavior, @import, expression und url Tags. \\
+
+CssStyleAttributeFilter & Dieser Filter verwendet den Css Cleaner und entefernt bei allen HTML Style Attributen die oben beschriebenen CSS Tags. \\
+
+CssInlineFilter & Dieser Filter verwendet ebenfalls den Css Cleaner und wird bei allen HTML Style Tags angewendet. \\
+
+CssLinkFilter & Dieser Filter entfenrt alle HTML Link Tags welche auf ein externes CSS File verweisen. \\
+
+\hline \hline
+\end{tabular}
+\caption{Filter}
+\label{tab:filter}
+\end{center}
+\end{table}

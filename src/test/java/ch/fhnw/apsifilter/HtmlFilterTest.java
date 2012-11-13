@@ -298,6 +298,13 @@ public class HtmlFilterTest {
 		assertEquals(BLANK_HTML_SITE, stripNewlines(cleanHtml));
 	}
 	
+	@Test
+	public void testLinkStylesheet() {
+		String html = "<link rel=\"stylesheet\" type=\"text/css\" href=\"../../src/selfhtml.css\">";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(BLANK_HTML_SITE, stripNewlines(cleanHtml));
+	}
+	
 	private static String stripNewlines(String text) {
 		text = text.replaceAll("\\n\\s*", "");
 		return text;
