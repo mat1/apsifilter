@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import ch.fhnw.apsifilter.filter.AttributeWhitelistFilter;
 import ch.fhnw.apsifilter.filter.ProtocolFilter;
+import ch.fhnw.apsifilter.filter.SrcUrlFilter;
 import ch.fhnw.apsifilter.filter.TagWhitelistFilter;
 import ch.fhnw.apsifilter.filter.css.CssInlineFilter;
 import ch.fhnw.apsifilter.filter.css.CssLinkFilter;
@@ -37,6 +38,7 @@ public class HtmlFilterTest {
 		underTest.addFilter(CssStyleAttributeFilter.createDefault());
 		underTest.addFilter(CssInlineFilter.createLazy());
 		underTest.addFilter(CssLinkFilter.createDefault());
+		underTest.addFilter(SrcUrlFilter.createDefault());
 	}
 
 	@Test
@@ -286,7 +288,7 @@ public class HtmlFilterTest {
 	public void testImgEmbeddedCommands() {
 		String html = "<IMG SRC=\"http://www.thesiteyouareon.com/somecommand.php?somevariables=maliciouscode\">";
 		String cleanHtml = underTest.filter(html).html();
-		assertEquals(HEADER + BLANK_IMAGE + FOOTER, stripNewlines(cleanHtml));
+		assertEquals(HEADER + "<img src=\"http://www.thesiteyouareon.com/somecommand.php\" />" + FOOTER, stripNewlines(cleanHtml));
 	}
 	
 	@Test

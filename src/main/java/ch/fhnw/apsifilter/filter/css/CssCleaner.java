@@ -10,13 +10,13 @@ public final class CssCleaner {
 	private static final String HTC_PATTERN = "behavior([\\s\\t]*:[0-9a-zA-z\\s\\t\\(\\)\\#.:\\\\/\\-\\+]*(;)?)?";
 	private static final String IMPORT_PATTERN = "@import([0-9a-zA-z\\s\\t\\(\\)\\#.:\\\\/\\-\\+]*(;)?)?";
 	private static final String EXPRESSION_PATTERN = "expression([\\s\\t]*:[0-9a-zA-z\\s\\t\\(\\)\\#.:\\\\/\\-\\+]*(;)?)?";
-	private static final String JAVASCRIPT_URL_PATTERN = "javascript([\\s\\t]*:[0-9a-zA-z\\s\\t\\(\\)\\#.:\\\\/\\-\\+]*(;)?)?";
+	private static final String URL_PATTERN = "u[\\s\\n\\t]*r[\\s\\n\\t]*l[\\s\\n\\t]*(\\()?";
 	
 	private final Pattern xblPattern;
 	private final Pattern htcPattern;
 	private final Pattern importPattern;
 	private final Pattern expressionPattern;
-	private final Pattern javascriptPattern;
+	private final Pattern urlPattern;
 	private final boolean strict;
 	
 	private CssCleaner(boolean strict) {
@@ -24,7 +24,7 @@ public final class CssCleaner {
 		htcPattern = Pattern.compile(HTC_PATTERN);
 		importPattern = Pattern.compile(IMPORT_PATTERN);
 		expressionPattern = Pattern.compile(EXPRESSION_PATTERN);
-		javascriptPattern = Pattern.compile(JAVASCRIPT_URL_PATTERN);
+		urlPattern = Pattern.compile(URL_PATTERN);
 		this.strict = strict;
 	}
 	
@@ -33,7 +33,7 @@ public final class CssCleaner {
 			   htcPattern.matcher(css).find() ||
 			   expressionPattern.matcher(css).find() ||
 			   importPattern.matcher(css).find() ||
-			   javascriptPattern.matcher(css).find();
+			   urlPattern.matcher(css).find();
 	}
 	
 	@CheckReturnValue
@@ -44,7 +44,7 @@ public final class CssCleaner {
 						   .replaceAll(HTC_PATTERN, "ignored: 0;")
 						   .replaceAll(IMPORT_PATTERN, "ignored: 0;")
 						   .replaceAll(EXPRESSION_PATTERN, "ignored: 0;")
-						   .replaceAll(JAVASCRIPT_URL_PATTERN, "ignored: 0;");
+						   .replaceAll(URL_PATTERN, "ignored: 0;");
 		}
 		
 		return css;
