@@ -1,0 +1,136 @@
+package ch.fhnw.apsifilter;
+
+import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
+
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+import org.junit.Before;
+import org.junit.Test;
+
+import ch.fhnw.apsifilter.filter.AttributeWhitelistFilter;
+import ch.fhnw.apsifilter.filter.ProtocolFilter;
+import ch.fhnw.apsifilter.filter.TagWhitelistFilter;
+import ch.fhnw.apsifilter.filter.css.CssStyleAttributeFilter;
+
+/**
+ * Tests are from https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet
+ * 
+ * @author Matthias Brun
+ * 
+ */
+public class HtmlFilterTest {
+
+	private static final String HEADER = "<html><head></head><body>";
+	private static final String FOOTER = "</body></html>";
+	private static final String BLANK_HTML_SITE = HEADER + FOOTER;
+	private static final String BLANK_IMAGE = "<img src=\"\" />";
+
+	private Pipe underTest;
+
+	@Before
+	public void setUp() {
+		underTest = Pipe.createPipe();
+		underTest.addFilter(TagWhitelistFilter.createDefault());
+		underTest.addFilter(AttributeWhitelistFilter.createDefault());
+		underTest.addFilter(ProtocolFilter.createDefault());
+		underTest.addFilter(CssStyleAttributeFilter.createDefault());
+	}
+
+	@Test
+	public void testCleanHtml() {
+		String html = "Hello <b>world</b>!";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + "Hello <b>world</b>!" + FOOTER,
+				stripNewlines(cleanHtml));
+	}
+
+	@Test
+	public void testXssLocator2() {
+		String html = "'';!--\"<XSS>=&{()}";
+		String cleanHtml = underTest.filter(html).html();
+		assertNotSame(HEADER + "<XSS verses &lt;XSS" + FOOTER,
+				stripNewlines(cleanHtml));
+	}
+
+	@Test
+	public void testNoFilterEvasion() {
+		String html = "<SCRIPT SRC=http://ha.ckers.org/xss.js></SCRIPT>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(BLANK_HTML_SITE, stripNewlines(cleanHtml));
+	}
+
+	@Test
+	public void testImageXss() {
+		String html = "<IMG SRC=\"javascript:alert('XSS');\">";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + BLANK_IMAGE + FOOTER, stripNewlines(cleanHtml));
+	}
+
+	@Test
+	public void testNoQuotesAndNoSemicolon() {
+		String html = "<IMG SRC=javascript:alert('XSS')>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + BLANK_IMAGE + FOOTER, stripNewlines(cleanHtml));
+	}
+
+	@Test
+	public void testCaseInsensitiveXssAttackVector() {
+		String html = "<IMG SRC=JaVaScRiPt:alert('XSS')>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + BLANK_IMAGE + FOOTER, stripNewlines(cleanHtml));
+	}
+
+	@Test
+	public void testHtmlEntities() {
+		String html = "<IMG SRC=javascript:alert(\"XSS\")>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + BLANK_IMAGE + FOOTER, stripNewlines(cleanHtml));
+	}
+
+	@Test
+	public void testGraveAccentObfuscation() {
+		String html = "<IMG SRC=`javascript:alert(\"RSnake says, 'XSS'\")`>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + BLANK_IMAGE + FOOTER, stripNewlines(cleanHtml));
+	}
+
+	@Test
+	public void testMalformedImgTags() {
+		String html = "<IMG \"\"\"><SCRIPT>alert(\"XSS\")</SCRIPT>\">";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + "<img />&quot;&gt;" + FOOTER,
+				stripNewlines(cleanHtml));
+	}
+
+	@Test
+	public void testFromCharCode() {
+		String html = "<IMG SRC=javascript:alert(String.fromCharCode(88,83,83))>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + BLANK_IMAGE + FOOTER, stripNewlines(cleanHtml));
+	}
+
+	@Test
+	public void testUtf8UnicodeEncoding() {
+		String html = "<IMG SRC=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;" +
+					  "&#108;&#101;&#114;&#116;&#40;&#39;&#88;&#83;&#83;&#39;&#41;>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + BLANK_IMAGE + FOOTER, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testLongUtf8UnicodeEncodingWithoutSemicolons() {
+		String html = "<IMG SRC=&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105" +
+				      "&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040" +
+				      "&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + BLANK_IMAGE + FOOTER, stripNewlines(cleanHtml));
+	}
+	
+	
+	private static String stripNewlines(String text) {
+		text = text.replaceAll("\\n\\s*", "");
+		return text;
+	}
+
+}

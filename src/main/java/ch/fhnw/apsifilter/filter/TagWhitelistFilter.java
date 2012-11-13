@@ -58,7 +58,7 @@ public class TagWhitelistFilter implements DomFilter {
 
 	public static TagWhitelistFilter createDefault() {
 		TagWhitelistFilter filter = new TagWhitelistFilter();
-		filter.add("text", "html", "head", "body", "a", "blockquote", "br",
+		filter.add("text", "html", "head", "body", "a", "b", "blockquote", "br",
 				"caption", "col", "colgroup", "div", "em", "h1", "h2", "h3",
 				"h4", "h5", "h6", "i", "img", "li", "ol", "ul", "p", "pre",
 				"small", "strike", "strong", "table", "tbody", "td", "tfoot",
