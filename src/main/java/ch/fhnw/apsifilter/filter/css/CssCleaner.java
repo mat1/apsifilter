@@ -3,8 +3,8 @@ package ch.fhnw.apsifilter.filter.css;
 import java.util.regex.Pattern;
 
 public final class CssCleaner {
-	private static final String XBL_PATTERN = "-moz-binding: url\\([a-zA-Z]*.xml(#[a-zA-Z]*)?\\)";
-	private static final String HTC_PATTERN = "behavior: url\\([a-zA-Z]*.htc\\)";
+	private static final String XBL_PATTERN = "-moz-binding:[\\s\\t]*url\\([\\s\\t0-9a-zA-Z]*.xml(#[a-zA-Z]*)?";
+	private static final String HTC_PATTERN = "behavior:[\\s\\t]*url[\\s\\t]*\\([\\s\\t0-9a-zA-Z]*.htc";
 	
 	private final Pattern xblPattern;
 	private final Pattern htcPattern;
