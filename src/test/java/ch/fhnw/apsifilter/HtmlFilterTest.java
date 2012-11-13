@@ -269,13 +269,6 @@ public class HtmlFilterTest {
 	}
 	
 	@Test
-	public void testDivBackgroundImage2() {
-		String html = "<DIV STYLE=\"background-image: url(jav&#x0D;ascript:alert('XSS');)\">";
-		String cleanHtml = underTest.filter(html).html();
-		assertEquals(HEADER + "<div style=\"\"></div>" + FOOTER, stripNewlines(cleanHtml));
-	}
-	
-	@Test
 	public void testDivBackgroundImagePlusExtraCharacters() {
 		String html = "<DIV STYLE=\"background-image: url(&#1;javascript:alert('XSS'))\">";
 		String cleanHtml = underTest.filter(html).html();
@@ -294,6 +287,13 @@ public class HtmlFilterTest {
 		String html = "<IMG SRC=\"http://www.thesiteyouareon.com/somecommand.php?somevariables=maliciouscode\">";
 		String cleanHtml = underTest.filter(html).html();
 		assertEquals(HEADER + BLANK_IMAGE + FOOTER, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testXssUsingHtmlQuoteEncapsulation() {
+		String html = "<SCRIPT a=\">\" SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(BLANK_HTML_SITE, stripNewlines(cleanHtml));
 	}
 	
 	private static String stripNewlines(String text) {

@@ -29,6 +29,7 @@ public class ProtocolFilter extends AbstractAttributeFilter {
 		}
 	}
 	
+	@CheckReturnValue
 	private boolean isValid(@Nonnull String value) {
 		try{
 			URI uri = new URI(value);

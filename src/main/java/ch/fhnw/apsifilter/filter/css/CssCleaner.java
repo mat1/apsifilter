@@ -3,6 +3,7 @@ package ch.fhnw.apsifilter.filter.css;
 import java.util.regex.Pattern;
 
 import javax.annotation.CheckReturnValue;
+import javax.annotation.Nonnull;
 
 public final class CssCleaner {
 	private static final String XBL_PATTERN = "-moz-binding([\\s\\t]*:[0-9a-zA-z\\s\\t\\(\\)\\#.\\\\/\\-\\+]*(;)?)?";
@@ -27,7 +28,7 @@ public final class CssCleaner {
 		this.strict = strict;
 	}
 	
-	private boolean mayBeMalicious(final String css) {
+	private boolean mayBeMalicious(@Nonnull final String css) {
 		return xblPattern.matcher(css).find() ||
 			   htcPattern.matcher(css).find() ||
 			   expressionPattern.matcher(css).find() ||

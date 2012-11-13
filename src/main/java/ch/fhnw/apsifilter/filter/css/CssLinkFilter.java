@@ -3,6 +3,8 @@ package ch.fhnw.apsifilter.filter.css;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.CheckReturnValue;
+
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 
@@ -37,6 +39,7 @@ public class CssLinkFilter extends AbstractNodeVisitor {
 		for(Node n : toRemoveAfterVisit) n.remove();
 	}
 	
+	@CheckReturnValue
 	public static CssLinkFilter createDefault() {
 		CssLinkFilter filter = new CssLinkFilter();
 		filter.shouldVisit("link");
