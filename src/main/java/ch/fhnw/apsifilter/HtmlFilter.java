@@ -36,7 +36,7 @@ public class HtmlFilter {
 	
 	private HtmlFilter() {
 		pipe = Pipe.createPipe();
-//		pipe.addFilter(TagWhitelistFilter.createDefault());
+		pipe.addFilter(TagWhitelistFilter.createDefault());
 		pipe.addFilter(AttributeWhitelistFilter.createDefault());
 		pipe.addFilter(ProtocolFilter.createDefault());
 		pipe.addFilter(CssStyleAttributeFilter.createDefault());

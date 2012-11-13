@@ -9,6 +9,8 @@ import org.junit.Test;
 import ch.fhnw.apsifilter.filter.AttributeWhitelistFilter;
 import ch.fhnw.apsifilter.filter.ProtocolFilter;
 import ch.fhnw.apsifilter.filter.TagWhitelistFilter;
+import ch.fhnw.apsifilter.filter.css.CssInlineFilter;
+import ch.fhnw.apsifilter.filter.css.CssLinkFilter;
 import ch.fhnw.apsifilter.filter.css.CssStyleAttributeFilter;
 
 /**
@@ -33,6 +35,8 @@ public class HtmlFilterTest {
 		underTest.addFilter(AttributeWhitelistFilter.createDefault());
 		underTest.addFilter(ProtocolFilter.createDefault());
 		underTest.addFilter(CssStyleAttributeFilter.createDefault());
+		underTest.addFilter(CssInlineFilter.createLazy());
+		underTest.addFilter(CssLinkFilter.createDefault());
 	}
 
 	@Test

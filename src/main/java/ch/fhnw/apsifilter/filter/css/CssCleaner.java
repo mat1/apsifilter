@@ -3,9 +3,6 @@ package ch.fhnw.apsifilter.filter.css;
 import java.util.regex.Pattern;
 
 public final class CssCleaner {
-//	private static final String XBL_PATTERN = "-moz-binding:[\\s\\t]*url[\\s\\t]*\\([\\s\\t0-9a-zA-Z]*.xml(#[0-9a-zA-Z]*)?";
-//	private static final String HTC_PATTERN = "behavior:[\\s\\t]*url[\\s\\t]*\\([\\s\\t0-9a-zA-Z]*.htc";
-	
 	private static final String XBL_PATTERN = "-moz-binding([\\s\\t]*:[0-9a-zA-z\\s\\t\\(\\)\\#.\\\\/\\-\\+]*(;)?)?";
 	private static final String HTC_PATTERN = "behavior([\\s\\t]*:[0-9a-zA-z\\s\\t\\(\\)\\#.:\\\\/\\-\\+]*(;)?)?";
 	private static final String IMPORT_PATTERN = "@import([0-9a-zA-z\\s\\t\\(\\)\\#.:\\\\/\\-\\+]*(;)?)?";
