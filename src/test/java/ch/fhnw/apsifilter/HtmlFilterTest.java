@@ -264,6 +264,27 @@ public class HtmlFilterTest {
 		assertEquals(HEADER + "<div style=\"\"></div>" + FOOTER, stripNewlines(cleanHtml));
 	}
 	
+	@Test
+	public void testDivBackgroundImagePlusExtraCharacters() {
+		String html = "<DIV STYLE=\"background-image: url(&#1;javascript:alert('XSS'))\">";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + "<div style=\"\"></div>" + FOOTER, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testDivExpression() {
+		String html = "<DIV STYLE=\"width: expression(alert('XSS'));\">";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + "<div style=\"\"></div>" + FOOTER, stripNewlines(cleanHtml));
+	}
+	
+	@Test
+	public void testImgEmbeddedCommands() {
+		String html = "<IMG SRC=\"http://www.thesiteyouareon.com/somecommand.php?somevariables=maliciouscode\">";
+		String cleanHtml = underTest.filter(html).html();
+		assertEquals(HEADER + BLANK_IMAGE + FOOTER, stripNewlines(cleanHtml));
+	}
+	
 	private static String stripNewlines(String text) {
 		text = text.replaceAll("\\n\\s*", "");
 		return text;

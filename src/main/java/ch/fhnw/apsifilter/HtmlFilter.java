@@ -6,11 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.jsoup.nodes.Document;
 
 import ch.fhnw.apsifilter.filter.AttributeWhitelistFilter;
 import ch.fhnw.apsifilter.filter.ProtocolFilter;
-import ch.fhnw.apsifilter.filter.TagWhitelistFilter;
 import ch.fhnw.apsifilter.filter.css.CssInlineFilter;
 import ch.fhnw.apsifilter.filter.css.CssLinkFilter;
 import ch.fhnw.apsifilter.filter.css.CssStyleAttributeFilter;
@@ -42,7 +44,7 @@ public class HtmlFilter {
 		pipe.addFilter(CssLinkFilter.createDefault());
 	}
 	
-	private String filter(String filename) {
+	private String filter(@Nonnull String filename) {
 		try {
 			String htmlText = readHtmlFromFile(filename);
 			
@@ -56,7 +58,7 @@ public class HtmlFilter {
 		}
 	}
 	
-	private String readHtmlFromFile(String filename) throws FileNotFoundException {
+	private String readHtmlFromFile(@Nonnull String filename) throws FileNotFoundException {
 		final File f = new File(filename);
 		if(!f.exists()) throw new FileNotFoundException("Unable to find file.");
 		if(!f.canRead()) throw new FileNotFoundException("Could not read file.");
