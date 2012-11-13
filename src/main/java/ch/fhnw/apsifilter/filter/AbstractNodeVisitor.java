@@ -24,7 +24,7 @@ public abstract class AbstractNodeVisitor extends AbstractAllNodeFilter {
 	}
 	
 	@Override
-	protected final void filterNode(Node n) {
+	protected final void filterNode(@Nonnull Node n) {
 		if(shouldVisit(n))
 			filterChosenNode(n);
 	}
