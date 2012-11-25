@@ -29,7 +29,7 @@ gewährleistet bleibt, haben wir sowohl das Login für Windows, als auch für Un
 implementiert. Die JAAS-Konfiguration ist in Listing \ref{lst:jaas} ersichtlich. Dabei wird je
 nach verwendetem System der entsprechende LoginContext geladen. Im Falle von Unix wird dabei auf eine
 Gruppe 0 des angemeldeten Benutzer überprüft, im Falle von Windows auf die Well-known-group 
-SID\cite{MS:SID} \textit{S-1-5-32-544}, welche die Grupper der lokalen Administratoren identifiziert. 
+SID\cite{MS:SID} \textit{S-1-5-32-544}, welche die Gruppe der lokalen Administratoren identifiziert. 
 \newline
 \begin{lstlisting}[caption="JAAS konfiguration im File jaas\_security.conf", label={lst:jaas}]
 Unix {
