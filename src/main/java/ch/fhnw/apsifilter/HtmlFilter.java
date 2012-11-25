@@ -85,7 +85,9 @@ public final class HtmlFilter {
 	}
 	
 	private static boolean runningOnWindows() {
-		return false;
+		final String os = System.getProperty("os.name");
+		
+		return os.toLowerCase().contains("windows");
 	}
 	
 	private static void printUsage() {
