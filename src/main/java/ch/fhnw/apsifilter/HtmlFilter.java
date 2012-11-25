@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Map;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
@@ -27,10 +26,6 @@ import ch.fhnw.apsifilter.filter.css.CssStyleAttributeFilter;
 public final class HtmlFilter {
 
 	public static void main(String[] args) {
-		for (Map.Entry<Object, Object> e : System.getProperties().entrySet()) {
-            System.out.println(e);
-        }
-		
 		if(args.length != 1) {
 			printUsage();
 			return;
