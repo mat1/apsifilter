@@ -18,11 +18,17 @@ import ch.fhnw.apsifilter.filter.css.CssInlineFilter;
 import ch.fhnw.apsifilter.filter.css.CssLinkFilter;
 import ch.fhnw.apsifilter.filter.css.CssStyleAttributeFilter;
 
-public class HtmlFilter {
+
+public final class HtmlFilter {
 
 	public static void main(String[] args) {
 		if(args.length != 1) {
 			printUsage();
+			return;
+		}
+		
+		if(!checkAdmin()) {
+			printAdminError();
 			return;
 		}
 		
@@ -32,8 +38,38 @@ public class HtmlFilter {
 		System.out.println(cleanHtml);
 	}
 	
+	private static boolean checkAdmin() {
+		if(runningOnWindows()) {
+			return tryNTLogin();
+		} else {
+			return tryUnixLogin();
+		}
+	}
+	
+	private static boolean tryUnixLogin() {
+		com.sun.security.auth.module.UnixSystem system = new com.sun.security.auth.module.UnixSystem();
+		
+		for(long group : system.getGroups()) {
+			if(group == 0) return true;
+		}
+		
+		return false;
+	}
+	
+	private static boolean tryNTLogin() {
+		return false;
+	}
+	
+	private static boolean runningOnWindows() {
+		return false;
+	}
+	
 	private static void printUsage() {
 		System.out.println("Usage: java HtmlFilter <inputfile> <outputfile>");
+	}
+	
+	private static void printAdminError() {
+		System.out.println("Authentication failed: This program has to run with administrator/root rights");
 	}
 	
 	private final Pipe pipe;
