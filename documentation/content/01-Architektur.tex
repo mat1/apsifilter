@@ -1,7 +1,8 @@
 \section{Architektur}
 
 Dieses Kapitel erläutert den Aufbau unserer Applikation.
-Auf der Abbildung \ref{fig:overview} sind die Klassen und Interfaces der Applikation ersichtlich. 
+Auf der Abbildung \ref{fig:overview} sind die Klassen und Interfaces der Applikation ersichtlich.
+Wir verwenden das Pipe and Filter Pattern. Dies ermöglicht es die Applikation um weitere Filter einfach zu erweitern. 
 
 \begin{figure}[ht]
 	\begin{center}
@@ -54,12 +55,12 @@ Das Aktivitätsdiagramm Abbildung \ref{fig:process} beschreibt den Verarbeitungs
 	\label{fig:process}
 \end{figure}
 
-%\newpage
-
 \subsection{Filter}
 
 Dieser Abschnitt beschreibt die implementierten Filter. 
-In der Tabelle \ref{tab:filter} sind die implementierten Filter beschrieben.
+In der Tabelle \ref{tab:filter} sind die implementierten Filter aufgelistet. Die Filter operieren auf dem erstellten HTML-DOM.
+Jeder Filter bekommt als Eingabe den HTML-Baum und gibt den gefilterten HTML-Baum zurück. 
+Beim Filterprozess werden HTML und CSS Tags und Attribute entfernt, ersetzt und geändert.
 
 \begin{table}[h!]
 \begin{center}
@@ -71,7 +72,7 @@ Beim Entfernen eines HTML Tags werden auch die zugehörigen HTML Child Nodes ent
 
 AttributeWhitelistFilter & Der Attribute Whitelist Filter entfernt alle HTML Attribute welche nicht in der Whitelist enthalten sind. \\
 
-ProtocolFilter & Der Protocol Filter setzt bei den HTML Attributen href und src den Wert auf "", wenn das Protokoll nicht in der Whitelist vorhanden ist. \\
+ProtocolFilter & Der Protocol Filter setzt bei den HTML Attributen href und src den Wert auf '', wenn das Protokoll nicht in der Whitelist vorhanden ist. \\
 
 SrcUrlFilter & Dieser Filter entfernt den Query Parameter beim HTML src Attribut aus der URL. Dies verhindert z.B. folgende URLs http://www.test.com/test.php?somevariables=maliciouscode in img Tags. \\
 
