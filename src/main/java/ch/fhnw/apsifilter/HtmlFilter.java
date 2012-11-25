@@ -5,9 +5,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.Principal;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
+import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
@@ -52,23 +54,32 @@ public final class HtmlFilter {
 		try{
 			LoginContext context = new LoginContext("Unix");
 			context.login();
+
+			Subject user = context.getSubject();
+			for(Principal p : user.getPrincipals()) {
+				if("0".equals(p.getName())) return true;
+			}
 			
-			return true;
+			return false;
 		} catch (LoginException ex ) {
-			System.err.println(ex);
+			System.err.println("Error while authenticating: " + ex);
 			return false;
 		}
-		
 	}
 	
 	private static boolean tryNTLogin() {
 		try{
 			LoginContext context = new LoginContext("Windows");
 			context.login();
+
+			Subject user = context.getSubject();
+			for(Principal p : user.getPrincipals()) {
+				if("S-1-5-32-544".equals(p.getName())) return true;
+			}
 			
-			return true;
+			return false;
 		} catch (LoginException ex ) {
-			System.err.println(ex);
+			System.err.println("Error while authenticating: " + ex);
 			return false;
 		}
 	}
