@@ -11,6 +11,37 @@ Auf der Abbildung \ref{fig:overview} sind die Klassen und Interfaces der Applika
 	\label{fig:overview}
 \end{figure}
 
+\subsection{DOM Parser}
+
+Eine sehr wichtige Komponente des Mail Filters ist der Parser, welcher das HTML in das Document
+Object Model (DOM) verwandelt. Nebst dem Parsen ist er zusätzlich dafür verantwortlich, alle Character
+Encodings korrekt zu interpretieren und in Java Unicode Character Strings zu verwandeln. Aus diesem 
+Grund wurde viel Wert auf die Auswahl eines geeigneten Parsers gelegt. Wir entschieden uns am Schluss 
+für den Parser \textit{jsoup}\cite{DOM:JSOUP}. Diese Opensource Bibliothek erfüllte alle unsere 
+Anforderungen und ist zudem sehr gut dokumentiert. 
+
+\subsection{Authentifizierung}
+
+Um sicherzustellen, dass lediglich Benutzer mit Administrationsrechten die Applikation ausführen können,
+haben wir die Authentifizierung mittels JAAS implementiert. Damit die Plattformunabhängigkeit 
+gewährleistet bleibt, haben wir sowohl das Login für Windows, als auch für Unix basierte Systeme 
+implementiert. Die JAAS-Konfiguration ist in Listing \ref{lst:jaas} ersichtlich. Dabei wird je
+nach verwendetem System der entsprechende LoginContext geladen. Im Falle von Unix wird dabei auf eine
+Gruppe 0 des angemeldeten Benutzer überprüft, im Falle von Windows auf die Well-known-group 
+SID\cite{MS:SID} \textit{S-1-5-32-544}, welche die Grupper der lokalen Administratoren identifiziert. 
+\newline
+\begin{lstlisting}[caption="JAAS konfiguration im File jaas\_security.conf", label={lst:jaas}]
+Unix {
+        com.sun.security.auth.module.UnixLoginModule required debug=false;
+};
+
+Windows {
+        com.sun.security.auth.module.NTLoginModule required debug=false;
+};
+\end{lstlisting}
+
+\newpage
+
 \subsection{Verarbeitungsprozess}
 
 Das Aktivitätsdiagramm Abbildung \ref{fig:process} beschreibt den Verarbeitungsprozess vom Starten der Applikation, bis zur Ausgabe des gesäuberten HTML Codes.
@@ -23,7 +54,7 @@ Das Aktivitätsdiagramm Abbildung \ref{fig:process} beschreibt den Verarbeitungs
 	\label{fig:process}
 \end{figure}
 
-\newpage
+%\newpage
 
 \subsection{Filter}
 
