@@ -26,13 +26,13 @@ import ch.fhnw.apsifilter.filter.css.CssStyleAttributeFilter;
 public final class HtmlFilter {
 
 	public static void main(String[] args) {
-		if(args.length != 1) {
-			printUsage();
+		if(!checkAdmin()) {
+			printAdminError();
 			return;
 		}
 		
-		if(!checkAdmin()) {
-			printAdminError();
+		if(args.length != 1) {
+			printUsage();
 			return;
 		}
 		
@@ -42,6 +42,7 @@ public final class HtmlFilter {
 		System.out.println(cleanHtml);
 	}
 	
+	@CheckReturnValue
 	private static boolean checkAdmin() {
 		if(runningOnWindows()) {
 			return tryNTLogin();
@@ -50,6 +51,7 @@ public final class HtmlFilter {
 		}
 	}
 	
+	@CheckReturnValue
 	private static boolean tryUnixLogin() {
 		try{
 			LoginContext context = new LoginContext("Unix");
@@ -67,6 +69,7 @@ public final class HtmlFilter {
 		}
 	}
 	
+	@CheckReturnValue
 	private static boolean tryNTLogin() {
 		try{
 			LoginContext context = new LoginContext("Windows");
@@ -84,6 +87,7 @@ public final class HtmlFilter {
 		}
 	}
 	
+	@CheckReturnValue
 	private static boolean runningOnWindows() {
 		final String os = System.getProperty("os.name");
 		
