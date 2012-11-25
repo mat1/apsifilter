@@ -5,13 +5,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.security.Principal;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
-import javax.security.auth.Subject;
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
 
 import org.jsoup.nodes.Document;
 
@@ -21,7 +17,6 @@ import ch.fhnw.apsifilter.filter.TagWhitelistFilter;
 import ch.fhnw.apsifilter.filter.css.CssInlineFilter;
 import ch.fhnw.apsifilter.filter.css.CssLinkFilter;
 import ch.fhnw.apsifilter.filter.css.CssStyleAttributeFilter;
-
 
 public final class HtmlFilter {
 
