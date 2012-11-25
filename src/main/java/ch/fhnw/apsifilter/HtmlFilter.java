@@ -8,6 +8,8 @@ import java.io.IOException;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
 
 import org.jsoup.nodes.Document;
 
@@ -47,17 +49,28 @@ public final class HtmlFilter {
 	}
 	
 	private static boolean tryUnixLogin() {
-		com.sun.security.auth.module.UnixSystem system = new com.sun.security.auth.module.UnixSystem();
-		
-		for(long group : system.getGroups()) {
-			if(group == 0) return true;
+		try{
+			LoginContext context = new LoginContext("Unix");
+			context.login();
+			
+			return true;
+		} catch (LoginException ex ) {
+			System.err.println(ex);
+			return false;
 		}
 		
-		return false;
 	}
 	
 	private static boolean tryNTLogin() {
-		return false;
+		try{
+			LoginContext context = new LoginContext("Windows");
+			context.login();
+			
+			return true;
+		} catch (LoginException ex ) {
+			System.err.println(ex);
+			return false;
+		}
 	}
 	
 	private static boolean runningOnWindows() {
