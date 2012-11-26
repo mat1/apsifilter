@@ -15,7 +15,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 
-public class AttributeWhitelistFilter extends AbstractAllNodeFilter {
+public final class AttributeWhitelistFilter extends AbstractAllNodeFilter {
 
 	private final Map<String, String[]> whitelist;
 	private final List<String> allwaysAllowed;
@@ -70,8 +70,26 @@ public class AttributeWhitelistFilter extends AbstractAllNodeFilter {
 		
 		filter.allow("a", "href");
 		filter.allow("img", "align", "alt", "height", "src", "title", "width");
-		filter.allow("link", "rel", "href", "type");
+//		filter.allow("link", "rel", "href", "type");
 		filter.allow("style", "type");
+		
+		/* table tag attributes */
+		filter.allow("table", "summary", "width");
+		filter.allow("td", "abbr", "axis", "colspan", "rowspan", "width");
+        filter.allow("th", "abbr", "axis", "colspan", "rowspan", "scope", "width");
+        
+        filter.allow("ul", "type");
+        filter.allow("text", "text");
+        filter.allow("data", "data");
+		
+		return filter;
+	}
+	
+	@CheckReturnValue
+	public static AttributeWhitelistFilter createStrict() {
+		AttributeWhitelistFilter filter = new AttributeWhitelistFilter();
+		
+		filter.setAlwaysAllowed("class", "id", "name");
 		
 		/* table tag attributes */
 		filter.allow("table", "summary", "width");

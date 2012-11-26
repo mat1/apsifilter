@@ -53,7 +53,7 @@ public final class HtmlFilter {
 		pipe.addFilter(AttributeWhitelistFilter.createDefault());
 		pipe.addFilter(ProtocolFilter.createDefault());
 		pipe.addFilter(CssStyleAttributeFilter.createDefault());
-		pipe.addFilter(CssInlineFilter.createLazy());
+		pipe.addFilter(CssInlineFilter.createDefault());
 		pipe.addFilter(CssLinkFilter.createDefault());
 	}
 	

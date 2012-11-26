@@ -15,7 +15,7 @@ import org.jsoup.nodes.TextNode;
 
 import ch.fhnw.apsifilter.DomFilter;
 
-public class TagWhitelistFilter implements DomFilter {
+public final class TagWhitelistFilter implements DomFilter {
 
 	private final Set<String> whitelist;
 
