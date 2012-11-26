@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 
 import org.jsoup.nodes.Attribute;
 
-public class ProtocolFilter extends AbstractAttributeFilter {
+public final class ProtocolFilter extends AbstractAttributeFilter {
 
 	private final List<String> allowed;
 	

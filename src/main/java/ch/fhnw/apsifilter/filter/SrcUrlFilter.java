@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 
 import org.jsoup.nodes.Attribute;
 
-public class SrcUrlFilter extends AbstractAttributeFilter {
+public final class SrcUrlFilter extends AbstractAttributeFilter {
 	
 	private SrcUrlFilter() {	
 	}
