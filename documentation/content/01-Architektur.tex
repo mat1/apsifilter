@@ -29,6 +29,8 @@ AbstractAttributeFilter & Besucht alle Nodes und prüft ob sie eines der zugelas
 \end{center}
 \end{table}
 
+\newpage
+
 \subsection{DOM Parser}
 
 Eine sehr wichtige Komponente des Mail Filters ist der Parser, welcher das HTML in das Document
@@ -72,14 +74,15 @@ Das Aktivitätsdiagramm Abbildung \ref{fig:process} beschreibt den Verarbeitungs
 	\label{fig:process}
 \end{figure}
 
-
 \newpage
+
 \subsection{Filter}
 
 Dieser Abschnitt beschreibt die implementierten Filter. 
 In der Tabelle \ref{tab:filter} sind die implementierten Filter aufgelistet. Die Filter operieren auf dem erstellten HTML-DOM.
 Jeder Filter bekommt als Eingabe den HTML-Baum. Beim Filterprozess werden HTML und CSS Tags und Attribute entfernt, ersetzt und geändert.
 \newline
+
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{l p{10.5cm} }
@@ -108,6 +111,8 @@ CssLinkFilter & Dieser Filter entfernt alle HTML Link Tags welche auf ein extern
 \label{tab:filter}
 \end{center}
 \end{table}
+
+\newpage
 
 \subsection{Whitelist}
 In der Tabelle \ref{tab:whitelist} sind die zugelassenen HTML Tags, Attribute und Protokolle aufgelistet.
