@@ -38,11 +38,11 @@ public final class HtmlFilter {
 	}
 	
 	private static void printUsage() {
-		System.out.println("Usage: java HtmlFilter <inputfile> <outputfile>");
+		System.err.println("Usage: java HtmlFilter <inputfile> <outputfile>");
 	}
 	
 	private static void printAdminError() {
-		System.out.println("Authentication failed: This program has to run with administrator/root rights");
+		System.err.println("Authentication failed: This program has to run with administrator/root rights");
 	}
 	
 	private final Pipe pipe;
