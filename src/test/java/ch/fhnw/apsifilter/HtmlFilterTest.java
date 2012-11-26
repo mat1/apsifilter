@@ -302,7 +302,7 @@ public class HtmlFilterTest {
 	public void testLinkStylesheet() {
 		String html = "<link rel=\"stylesheet\" type=\"text/css\" href=\"../../src/selfhtml.css\">";
 		String cleanHtml = underTest.filter(html).html();
-		assertEquals(BLANK_HTML_SITE, stripNewlines(cleanHtml));
+		assertEquals("<html><head><link /></head><body>" + FOOTER, stripNewlines(cleanHtml));
 	}
 	
 	private static String stripNewlines(String text) {
