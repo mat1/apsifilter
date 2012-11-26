@@ -12,7 +12,13 @@ sudo java -Djava.security.auth.login.config=jaas_security.conf -jar filter.jar
 \newpage
 \begin{appendix}
 \section{Cleaned up HTML}
-\begin{lstlisting}[caption=Resultat des Filters auf dem Test-File,language=HTML]
+
+Die Ausgabe des Test Files ist sehr restriktiv. Sie ist in Listing \ref{lst:output} ersichtlich. 
+Jedoch haben wir auch Tests mit den FHNW Newslettern
+durchgeführt um zu schauen, wie der Filter auf korrekten Mails funktioniert. Die Resultate waren sehr 
+zufriedenstellend. 
+
+\begin{lstlisting}[caption=Resultat des Filters auf dem Test-File,language=HTML,label={lst:output}]
 <html>
  <head>
    <style></style>
