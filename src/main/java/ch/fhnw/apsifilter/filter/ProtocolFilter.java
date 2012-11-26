@@ -51,7 +51,7 @@ public final class ProtocolFilter extends AbstractAttributeFilter {
 		
 		filter.add("http");
 		filter.add("https");
-		filter.add("ftp");
+//		filter.add("ftp");
 		return filter;
 	}
 
