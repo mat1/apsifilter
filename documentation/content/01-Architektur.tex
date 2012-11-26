@@ -1,8 +1,8 @@
 \section{Architektur}
 
 Dieses Kapitel erläutert den Aufbau unserer Applikation.
-Auf der Abbildung \ref{fig:overview} sind die Klassen und Interfaces der Applikation ersichtlich.
-Wir verwenden das Pipe and Filter Pattern. Dies ermöglicht es die Applikation um weitere Filter einfach zu erweitern. 
+Auf der Abbildung \ref{fig:overview} sind die Klassen und Interfaces der Applikation ersichtlich. In der Tabelle \ref{tab:class} sind
+die wichtigsten Klassen beschrieben mit Ausnahme der Filter Klassen, diese sind in der Tabelle \ref{tab:filter} aufgelistet. Wir verwenden das Pipe and Filter Pattern. Dies ermöglicht es die Applikation um weitere Filter einfach zu erweitern. 
 
 \begin{figure}[ht]
 	\begin{center}
@@ -11,6 +11,23 @@ Wir verwenden das Pipe and Filter Pattern. Dies ermöglicht es die Applikation u
 	\caption{Übersicht über die Klassen und Interfaces}
 	\label{fig:overview}
 \end{figure}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{l p{10.5cm} }
+\hline
+\textbf{Klasse} & \textbf{Beschreibung} \\ \hline \hline
+HtmlFilter & Einstiegspunkt in die Applikation. \\
+Pipe & Verwaltet die Filter und startet den Filterprozess. \\
+AbstractAllNodeFilter & Besucht alle Nodes und ruft für jeden Node filterNode auf. Wenn alle Nodes besucht wurden, wird visitCompleted aufgerufen. \\
+AbstractNodeVisitor & Ruft bei allen Nodes welche in der nodesToVisit Liste sind filterNode auf. \\
+AbstractAttributeFilter & Besucht alle Nodes und prüft ob sie eines der zugelassenen Attribute enthalten. Wenn ja, wird filterAttribute augerufen. \\
+\hline \hline
+\end{tabular}
+\caption{Klassen}
+\label{tab:class}
+\end{center}
+\end{table}
 
 \subsection{DOM Parser}
 

@@ -2,6 +2,12 @@
 
 In diesem Kapitel wird das Vorgehen bei der Entwicklung erläutert.
 
+\subsection{Unittests}
+
+Bei der Entwicklung wurden von Beginn an Unittests verwendet um die Funktionsweise des HtmlFilters zu überprüfen.
+Es wurden für alle Tests unter \url{https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet} ein entsprechender JUnitTest erstellt.
+Dadurch konnte bei einer Anpassung eines Filters schnell überprüft werden, ob der bösartige HTML Code noch entfernt wird.
+
 \subsection{FindBugs}
 
 Während der gesamten Entwicklung wurde FindBugs verwendet, um mögliche Fehler bereits 
